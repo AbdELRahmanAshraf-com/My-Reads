@@ -23,7 +23,7 @@ const Book = ({ book, onChangeShelf, viewedBooks }) => {
         />
         <div className='book-shelf-changer'>
           <select
-            value={book && (book.shelf ?? "move")}
+            value={book && (book.shelf ?? "none")}
             onChange={e => {
               onChangeShelf(book, e.target.value);
             }}
