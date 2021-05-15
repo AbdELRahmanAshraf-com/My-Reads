@@ -1,25 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import List from "./List";
+import Search from "./Search";
+import { Route } from "react-router-dom";
+import "./App.css";
+import * as API from "./BooksAPI";
+class App extends Component {
+  state = {
+    books: [],
+  };
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  componentDidMount() {
+    this.getAllBooks();
+  }
+
+  getAllBooks = () => {
+    API.getAll().then(books => {
+      this.setState({
+        books,
+      });
+    });
+  };
+
+  changeShelf = (book, shelf) => {
+    // this.state.books.includes(book) &&
+    // this.state.books.forEach(element => {
+    //   if (element.id === book.id) {
+    //     element.shelf = shelf;
+    //     this.setState({});
+    //   }
+    // });
+    API.update(book, shelf).then(this.getAllBooks);
+  };
+  render() {
+    return (
+      <div className='app'>
+        <Route
+          exact
+          path='/'
+          render={() => (
+            <List books={this.state.books} onChangeShelf={this.changeShelf} />
+          )}
+        />
+        <Route
+          path='/search'
+          render={() => (
+            <Search
+              onChangeShelf={(book, shelf) => this.changeShelf(book, shelf)}
+            />
+          )}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
