@@ -44,6 +44,7 @@ class Search extends Component {
           <Shelf
             onChangeShelf={this.props.onChangeShelf}
             books={this.state.books}
+            viewedBooks={this.props.viewedBooks}
           />
         </div>
       </div>

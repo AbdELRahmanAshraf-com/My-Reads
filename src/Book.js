@@ -1,6 +1,15 @@
 import React from "react";
 
-const Book = ({ book, onChangeShelf }) => {
+function match(viewedBooks, book) {
+  const filtered = viewedBooks?.filter(b => b.id === book.id) ?? [];
+  const isExist = filtered.length !== 0;
+  if (isExist) {
+    return filtered[0];
+  }
+  return null;
+}
+const Book = ({ book, onChangeShelf, viewedBooks }) => {
+  book = match(viewedBooks, book) ?? book;
   return (
     <div className='book'>
       <div className='book-top'>
@@ -14,7 +23,7 @@ const Book = ({ book, onChangeShelf }) => {
         />
         <div className='book-shelf-changer'>
           <select
-            value={book.shelf ?? "move"}
+            value={book && (book.shelf ?? "move")}
             onChange={e => {
               onChangeShelf(book, e.target.value);
             }}

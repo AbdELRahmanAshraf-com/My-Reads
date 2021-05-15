@@ -46,6 +46,7 @@ class App extends Component {
           render={() => (
             <Search
               onChangeShelf={(book, shelf) => this.changeShelf(book, shelf)}
+              viewedBooks={this.state.books}
             />
           )}
         />
